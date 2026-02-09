@@ -50,18 +50,24 @@ flatpickr(dateTime, options);
 function handlerClick() {
   start.disabled = true;
 
+  console.dir(dateTime);
+
   intervalId = setInterval(() => {
     const endDate = userSelectedDate - new Date();
+    console.log(endDate);
 
     const convertDate = convertMs(endDate);
-    console.log(convertDate);
-
     const { days, hours, minutes, seconds } = convertDate;
 
-    refs.seconds.textContent = seconds;
-    refs.minutes.textContent = minutes;
-    refs.hours.textContent = hours;
-    refs.days.textContent = days;
+    if (endDate < 0) {
+      clearInterval(intervalId);
+    } else {
+      console.log(convertDate);
+      refs.seconds.textContent = seconds;
+      refs.minutes.textContent = minutes;
+      refs.hours.textContent = hours;
+      refs.days.textContent = days;
+    }
   }, 1000);
 }
 
