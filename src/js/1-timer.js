@@ -20,10 +20,6 @@ const refs = {
 
 start.addEventListener('click', handlerClick);
 
-function handlerClick(evt) {
-  start.disabled = true;
-}
-
 let userSelectedDate;
 start.disabled = true;
 let intervalId = null;
@@ -38,20 +34,6 @@ const options = {
       userSelectedDate = selectedDates[0];
 
       start.disabled = false;
-
-      intervalId = setInterval(() => {
-        const endDate = userSelectedDate - new Date();
-
-        const convertDate = convertMs(endDate);
-        console.log(convertDate);
-
-        const { days, hours, minutes, seconds } = convertDate;
-
-        refs.seconds.textContent = seconds;
-        refs.minutes.textContent = minutes;
-        refs.hours.textContent = hours;
-        refs.days.textContent = days;
-      }, 1000);
     } else {
       start.disabled = true;
       iziToast.show({
@@ -64,6 +46,24 @@ const options = {
 };
 
 flatpickr(dateTime, options);
+
+function handlerClick() {
+  start.disabled = true;
+
+  intervalId = setInterval(() => {
+    const endDate = userSelectedDate - new Date();
+
+    const convertDate = convertMs(endDate);
+    console.log(convertDate);
+
+    const { days, hours, minutes, seconds } = convertDate;
+
+    refs.seconds.textContent = seconds;
+    refs.minutes.textContent = minutes;
+    refs.hours.textContent = hours;
+    refs.days.textContent = days;
+  }, 1000);
+}
 
 function convertMs(ms) {
   // Number of milliseconds per unit of time
