@@ -24,8 +24,6 @@ let userSelectedDate;
 start.disabled = true;
 let intervalId = null;
 
-// dateTime.disabled = true;
-
 const options = {
   enableTime: true,
   time_24hr: true,
@@ -75,20 +73,18 @@ function addLeadingZero(value) {
 
 function handlerClick() {
   start.disabled = true;
-
   dateTime.disabled = true;
 
   intervalId = setInterval(() => {
     const endDate = userSelectedDate - new Date();
-    console.log(endDate);
 
     const convertDate = convertMs(endDate);
     const { days, hours, minutes, seconds } = convertDate;
 
     if (endDate <= 0) {
       clearInterval(intervalId);
+      dateTime.disabled = false;
     } else {
-      console.log(convertDate);
       refs.seconds.textContent = seconds;
       refs.minutes.textContent = minutes;
       refs.hours.textContent = hours;
