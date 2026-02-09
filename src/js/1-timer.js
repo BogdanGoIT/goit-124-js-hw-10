@@ -8,8 +8,10 @@ import 'flatpickr/dist/flatpickr.min.css';
 // Додатковий імпорт стилів
 import 'izitoast/dist/css/iziToast.min.css';
 
-const dateTime = document.querySelector('#datetime-picker');
 const start = document.querySelector('button[data-start]');
+const dateTime = document.querySelector('#datetime-picker');
+
+start.addEventListener('click', handlerClick);
 
 const refs = {
   days: document.querySelector('[data-days]'),
@@ -18,11 +20,11 @@ const refs = {
   seconds: document.querySelector('[data-seconds]'),
 };
 
-start.addEventListener('click', handlerClick);
-
 let userSelectedDate;
 start.disabled = true;
 let intervalId = null;
+
+// dateTime.disabled = true;
 
 const options = {
   enableTime: true,
@@ -32,7 +34,6 @@ const options = {
   onClose(selectedDates) {
     if (selectedDates[0] > new Date()) {
       userSelectedDate = selectedDates[0];
-
       start.disabled = false;
     } else {
       start.disabled = true;
@@ -46,30 +47,6 @@ const options = {
 };
 
 flatpickr(dateTime, options);
-
-function handlerClick() {
-  start.disabled = true;
-
-  console.dir(dateTime);
-
-  intervalId = setInterval(() => {
-    const endDate = userSelectedDate - new Date();
-    console.log(endDate);
-
-    const convertDate = convertMs(endDate);
-    const { days, hours, minutes, seconds } = convertDate;
-
-    if (endDate < 0) {
-      clearInterval(intervalId);
-    } else {
-      console.log(convertDate);
-      refs.seconds.textContent = seconds;
-      refs.minutes.textContent = minutes;
-      refs.hours.textContent = hours;
-      refs.days.textContent = days;
-    }
-  }, 1000);
-}
 
 function convertMs(ms) {
   // Number of milliseconds per unit of time
@@ -94,4 +71,28 @@ function convertMs(ms) {
 
 function addLeadingZero(value) {
   return String(value).padStart(2, '0');
+}
+
+function handlerClick() {
+  start.disabled = true;
+
+  dateTime.disabled = true;
+
+  intervalId = setInterval(() => {
+    const endDate = userSelectedDate - new Date();
+    console.log(endDate);
+
+    const convertDate = convertMs(endDate);
+    const { days, hours, minutes, seconds } = convertDate;
+
+    if (endDate <= 0) {
+      clearInterval(intervalId);
+    } else {
+      console.log(convertDate);
+      refs.seconds.textContent = seconds;
+      refs.minutes.textContent = minutes;
+      refs.hours.textContent = hours;
+      refs.days.textContent = days;
+    }
+  }, 1000);
 }
