@@ -10,19 +10,17 @@ form.addEventListener('submit', onSubmit);
 function onSubmit(evt) {
   evt.preventDefault();
 
-  let { delay, state } = evt.target.elements;
-
-  delay = Number(delay.value);
-  state = state.value;
+  const dalayValue = Number(evt.target.elements.delay.value);
+  const stateValue = evt.target.elements.state.value;
 
   const promise = new Promise((resolve, reject) => {
     setTimeout(() => {
-      if (state === 'fulfilled') {
-        resolve(delay);
+      if (stateValue === 'fulfilled') {
+        resolve(dalayValue);
       } else {
-        reject(delay);
+        reject(dalayValue);
       }
-    }, delay);
+    }, dalayValue);
   });
   promise
     .then(delay => {
@@ -33,8 +31,8 @@ function onSubmit(evt) {
         position: 'topRight',
       });
     })
-    .catch(error => {
-      console.log(error);
+    .catch(delay => {
+      console.log(delay);
       iziToast.show({
         message: `❌ Rejected promise in ${delay}ms`,
         color: 'red',
