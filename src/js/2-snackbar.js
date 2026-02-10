@@ -18,15 +18,15 @@ function onSubmit(evt) {
   const promise = new Promise((resolve, reject) => {
     setTimeout(() => {
       if (state === 'fulfilled') {
-        resolve(state);
+        resolve(delay);
       } else {
-        reject(state);
+        reject(delay);
       }
     }, delay);
   });
   promise
-    .then(value => {
-      console.log(value);
+    .then(delay => {
+      console.log(delay);
       iziToast.show({
         message: `✅ Fulfilled promise in ${delay}ms`,
         color: 'green',
